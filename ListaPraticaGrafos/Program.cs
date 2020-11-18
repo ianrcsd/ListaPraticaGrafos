@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace ListaPraticaGrafos
 {
@@ -11,44 +12,95 @@ namespace ListaPraticaGrafos
         static void NaoDirigido(string path)
         {
             System.IO.StreamReader reader = new System.IO.StreamReader(path);
-            string linha;
-            int id = 0;         
-            while ((linha = reader.ReadLine()) != null)
-            
+           // string linha;
+            int id = 0;
+            List<Vertice> vertices = new List<Vertice>();
+            List<Aresta> arestas = new List<Aresta>();
+          
+
+            string[] linha = File.ReadAllLines(path);
+
+            for (int i = 0; i < linha.Count(); i++)
+            {
+             
+                if (i == linha.Count()-1)  //Verifica se é o ultimo item do arquvio para não da erro  ao executar o i+1            
+                    continue; 
+
                 if (linha.Length == 1)
-                {                   
-                    GrafoNaoDirigido gND;                    
+                {
+                    GrafoNaoDirigido gND;
                     continue;
-                }           
+                }
+                Console.WriteLine(linha[i]);
+
+                Console.WriteLine("O proximo é {0}", linha[i + 1]);
 
                 
+
                 Vertice vertice1;
                 Vertice vertice2;
                 Aresta aresta;
-                List<Aresta> arestas = new List<Aresta>();
-                List<Vertice> vertices = new List<Vertice>();
-                String[] dados = linha.Split(';');
 
-                
-                
+
+                String[] dados = linha[i].Split();
+
+
+
                 vertice1 = new Vertice(Convert.ToInt32(dados[0]));
                 vertice2 = new Vertice(Convert.ToInt32(dados[1]));
 
                 aresta = new Aresta(Convert.ToInt32(dados[2]), 0, vertice1, vertice2);
 
-                arestas.Add(aresta);                
-                
+                arestas.Add(aresta);
 
-                System.Console.WriteLine(linha.Length);
-            
 
-                //// Aresta a = new Aresta(id++, int.Parse(dados[2]), 0, dados[0], dados[1]);
-
-                // arestas.Add(a);
-                // Vertice v = new Vertice(int.Parse(dados[0]), arestas);
 
             }
-            reader.Close();
+            //foreach (string s in readText)
+            //{
+            //    Console.WriteLine(s);
+            //}
+            //Console.WriteLine("Ocounte " +  );
+
+            //while ((linha = reader.ReadLine()) != null)
+            //{
+            //    System.Console.WriteLine(linha.Length);
+
+            //    if (linha.Length == 1)
+            //    {
+            //        GrafoNaoDirigido gND;
+            //        continue;
+            //    }
+
+
+            //    Vertice vertice1;
+            //    Vertice vertice2;
+            //    Aresta aresta;
+
+
+            //    String[] dados = linha.Split(';');
+
+
+
+            //    vertice1 = new Vertice(Convert.ToInt32(dados[0]));
+            //    vertice2 = new Vertice(Convert.ToInt32(dados[1]));
+
+            //    aresta = new Aresta(Convert.ToInt32(dados[2]), 0, vertice1, vertice2);
+
+            //    arestas.Add(aresta);
+
+
+
+
+
+
+            //    //// Aresta a = new Aresta(id++, int.Parse(dados[2]), 0, dados[0], dados[1]);
+
+            //    // arestas.Add(a);
+            //    // Vertice v = new Vertice(int.Parse(dados[0]), arestas);
+
+            //}
+            //reader.Close();
         }
         static void Main(string[] args)
         {
@@ -65,3 +117,4 @@ namespace ListaPraticaGrafos
         }
     }
 }
+
