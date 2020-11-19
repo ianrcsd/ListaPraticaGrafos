@@ -8,8 +8,17 @@ namespace ListaPraticaGrafos
 {
     class GrafoDirigido : Grafo
     {
+        
+
+        
+
         public GrafoDirigido(List<Vertice> v, List<Aresta> a) : base(v, a)
         {
+        }
+
+        public GrafoDirigido(int id) :base(id)
+        {
+
         }
 
         bool isDirigido()

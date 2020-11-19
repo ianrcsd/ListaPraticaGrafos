@@ -9,6 +9,9 @@ namespace ListaPraticaGrafos
     class GrafoNaoDirigido : Grafo
     {
         public GrafoNaoDirigido(List<Vertice> v, List<Aresta> a) : base(v, a) { }
+        public GrafoNaoDirigido(int id) : base(id) { }
+
+
         public bool IsAdjacente(Vertice v1, Vertice v2)
         {
             bool adjacente = false;

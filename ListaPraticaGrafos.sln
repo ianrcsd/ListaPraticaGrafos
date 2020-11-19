@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListaPraticaGrafos", "ListaPraticaGrafos\ListaPraticaGrafos.csproj", "{F2B8E7F8-D9DB-43ED-8C7B-41F074034AA3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3E647B5F-CE47-4068-BCDC-AAEAEA9336DB}"
 	ProjectSection(SolutionItems) = preProject
 		dirigido.txt = dirigido.txt
-		não-dirigido.txt = não-dirigido.txt
+		Grafos.txt = Grafos.txt
 	EndProjectSection
 EndProject
 Global
@@ -24,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3A7881BB-8DD5-4CE7-9295-206839A40936}
 	EndGlobalSection
 EndGlobal
