@@ -21,11 +21,11 @@ namespace ListaPraticaGrafos
 
         }
 
-        bool isDirigido()
+        public bool isDirigido()
         {
             return true;
         }
-        int GetGrauEntrada(Vertice v1)
+       public int GetGrauEntrada(Vertice v1)
         {
             int count = 0;
             foreach (Aresta a in v1.GetArestas())
@@ -36,7 +36,7 @@ namespace ListaPraticaGrafos
             return count;
         }
 
-        int GetGrauSaida(Vertice v1)
+       public int GetGrauSaida(Vertice v1)
         {
             int count = 0;
             foreach (Aresta a in v1.GetArestas())
@@ -46,7 +46,7 @@ namespace ListaPraticaGrafos
             }
             return count;
         }
-        bool HasCiclo()
+        public bool HasCiclo()
         {
             if (DfsModificado() == 1)
                 return true;
