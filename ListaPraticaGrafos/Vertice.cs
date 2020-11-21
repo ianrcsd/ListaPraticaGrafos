@@ -5,12 +5,13 @@ namespace ListaPraticaGrafos
     public class Vertice : IDados
     {
         private int id;
-        private List<Aresta> arestas;
+        public List<Aresta> arestas = new List<Aresta>();
         private int cor;
         private Vertice pai;
-        private List<Vertice> filhos;
+        public List<Vertice> filhos = new List<Vertice>();        
         private int descoberta;
         private int termino;
+        
 
         public Vertice(int id)
         {
@@ -32,9 +33,9 @@ namespace ListaPraticaGrafos
             return this.arestas;
         }
 
-        public void SetArestas(List<Aresta> a)
+        public void SetArestas(Aresta a)
         {
-            this.arestas = a;
+            arestas.Add(a);
         }
         /// <summary>
         /// 0 = branco, 1 = cinza 2 = preto

@@ -11,6 +11,8 @@ namespace ListaPraticaGrafos
         public GrafoNaoDirigido(List<Vertice> v, List<Aresta> a) : base(v, a) { }
         public GrafoNaoDirigido(int id) : base(id) { }
 
+        
+            
 
         public bool IsAdjacente(Vertice v1, Vertice v2)
         {
@@ -36,7 +38,7 @@ namespace ListaPraticaGrafos
             return v1.GetArestas().Count;
         }
 
-        bool IsIsolado(Vertice v1)
+        public bool IsIsolado(Vertice v1)
         {
             if (v1.GetArestas().Count == 0)
                 return true;
@@ -44,7 +46,7 @@ namespace ListaPraticaGrafos
                 return false;
         }
 
-        bool IsPendente(Vertice v1)
+       public  bool IsPendente(Vertice v1)
         {
             if (GetGrau(v1) == 1)
                 return true;
@@ -52,29 +54,39 @@ namespace ListaPraticaGrafos
                 return false;
         }
 
-        bool IsRegular()
+       public bool IsRegular()
         {
             bool regular = true;
             vertices.ToArray();
 
             for (int i = 0; i < vertices.Count; i++)
             {
-                if (GetGrau(vertices[i]) != GetGrau(vertices[i++]))
+                int aux = 1;
+                if (i == vertices.Count() - 1)             
+                    aux = 0;         
+                if (GetGrau(vertices[i]) != GetGrau(vertices[i+ aux]))
+                {
                     regular = false;
+                    break;
+                }
             }
             return regular;
 
         }
 
-        //bool IsNulo()
-        //{
-        //    if (v1.GetArestas().Count == 0)
-        //        return true;
-        //    else
-        //        return false;
-        //}
+        public bool IsNulo()
+        {
+            bool nulo = true;
+            foreach (Vertice v in vertices)
+            {
+                if (!IsIsolado(v))
+                    nulo = false;
+                break;
+            }
+            return nulo;
+        }
 
-        bool IsCompleto()
+        public bool IsCompleto()
         {
             int numVertices = vertices.Count;
             int numArestas = arestas.Count;
@@ -85,16 +97,9 @@ namespace ListaPraticaGrafos
                 return false;
         }
 
-        bool IsConexo()
-        {
-            Dfs();
-            if (componentes == 1)
-                return true;
-            else
-                return false;
-        }
+     
 
-        bool IsEuleriano()
+       public  bool IsEuleriano()
         {
             bool euleriano = true;
 
@@ -106,7 +111,7 @@ namespace ListaPraticaGrafos
             return euleriano;
         }
 
-        bool IsUnicursal()
+       public  bool IsUnicursal()
         {
             int soma = 0;
 
@@ -121,10 +126,21 @@ namespace ListaPraticaGrafos
             else
                 return false;
         }
+
         int componentes;
-        public void Dfs()
+
+        public bool IsConexo()
         {
-            componentes = 1;
+            
+            if (Dfs() == 1)
+                return true;
+            else
+                return false;
+        }
+
+       public int Dfs()
+        {
+            componentes = 0;
             foreach (Vertice v in vertices)
             {
                 v.SetCor(0);
@@ -141,7 +157,7 @@ namespace ListaPraticaGrafos
                     componentes++;
                 }
             }
-            //return componentes;
+            return componentes;
         }
 
         private void Visitar(Vertice v, int timeStamp)
@@ -164,7 +180,7 @@ namespace ListaPraticaGrafos
             v.SetTermino(timeStamp);
         }
 
-        Grafo GetAGMPrim(Vertice v1)
+        public Grafo GetAGMPrim(Vertice v1)
         {
             List<Vertice> t = new List<Vertice>();
             List<Aresta> a = new List<Aresta>();
@@ -229,7 +245,7 @@ namespace ListaPraticaGrafos
             return prim;
         }
 
-        Grafo GetAGMKruskal(Vertice v1)
+       public Grafo GetAGMKruskal(Vertice v1)
         {
             List<Vertice> t = new List<Vertice>();
             List<Aresta> a = new List<Aresta>();
@@ -298,7 +314,7 @@ namespace ListaPraticaGrafos
             return chefe;
         }
 
-        int GetCutVertices()
+       public int GetCutVertices()
         {
             int cutVertices = 0;
             if (IsConexo() && !IsCompleto()) //grafos completos não tem cut vertices
