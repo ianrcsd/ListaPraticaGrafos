@@ -8,15 +8,12 @@ namespace ListaPraticaGrafos
 {
     class GrafoDirigido : Grafo
     {
-        
-
-        
 
         public GrafoDirigido(List<Vertice> v, List<Aresta> a) : base(v, a)
         {
         }
 
-        public GrafoDirigido(int id) :base(id)
+        public GrafoDirigido(int id) : base(id)
         {
 
         }
@@ -25,7 +22,7 @@ namespace ListaPraticaGrafos
         {
             return true;
         }
-       public int GetGrauEntrada(Vertice v1)
+        public int GetGrauEntrada(Vertice v1)
         {
             int count = 0;
             foreach (Aresta a in v1.GetArestas())
@@ -36,7 +33,7 @@ namespace ListaPraticaGrafos
             return count;
         }
 
-       public int GetGrauSaida(Vertice v1)
+        public int GetGrauSaida(Vertice v1)
         {
             int count = 0;
             foreach (Aresta a in v1.GetArestas())
@@ -48,6 +45,8 @@ namespace ListaPraticaGrafos
         }
         public bool HasCiclo()
         {
+           
+
             if (DfsModificado() == 1)
                 return true;
             else
@@ -68,7 +67,7 @@ namespace ListaPraticaGrafos
             {
                 if (v.GetCor() == 0)
                 {
-                   i = VisitarModificado(v, timeStamp);
+                    i = VisitarModificado(v, timeStamp);
                 }
             }
             return i;
@@ -83,13 +82,19 @@ namespace ListaPraticaGrafos
 
             foreach (Aresta a in v.GetArestas())
             {
-                if (a.GetVerticeFinal().GetCor() == 0)
+                if (a.GetDirecao() == 1)
                 {
-                    a.GetVerticeFinal().SetPai(v);
-                    VisitarModificado(a.GetVerticeFinal(), timeStamp);
+                    if (a.GetVerticeFinal().GetCor() == 0)
+                    {
+                        a.GetVerticeFinal().SetPai(v);
+                        VisitarModificado(a.GetVerticeFinal(), timeStamp);
+                    }
+                    else if(a.GetVerticeFinal().GetCor() == 1)
+                    {
+                        i = 1;//tem ciclo
+                    }                        
                 }
-                else
-                    i = 1;//tem ciclo
+                
             }
             v.SetCor(2);
             timeStamp++;
