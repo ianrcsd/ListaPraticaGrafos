@@ -213,8 +213,11 @@ namespace ListaPraticaGrafos
                     }
 
                 }
-                menorAresta.SetEmUso(true);
-                arestas.Add(menorAresta);
+                
+                if(menorAresta != null) {
+                    menorAresta.SetEmUso(true);
+                    arestas.Add(menorAresta);
+                }
             }
 
             return prim;
