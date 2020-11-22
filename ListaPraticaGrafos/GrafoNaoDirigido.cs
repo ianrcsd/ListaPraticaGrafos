@@ -181,8 +181,8 @@ namespace ListaPraticaGrafos
         {
             List<Vertice> arvore = new List<Vertice>();
             List<Aresta> arestas = new List<Aresta>();
-            Grafo prim;
-            int maiorPeso = Int32.MaxValue;
+            Grafo prim = null; 
+            //int maiorPeso = Int32.MaxValue;
 
 
             if (!IsConexo()) return null;
@@ -197,7 +197,7 @@ namespace ListaPraticaGrafos
 
             }
 
-            while(menorAresta != null) {
+            while(menorAresta != null) { //tá passando só uma vez
 
                 foreach (Aresta aresta in arestas) {
                     Aresta menorArestaInicial = aresta.GetVerticeInicial().GetMenorAresta();

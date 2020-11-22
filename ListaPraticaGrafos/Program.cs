@@ -37,11 +37,12 @@ namespace ListaPraticaGrafos
                     if (linha[i +aux].Split(';').Count() == 3)
                     {                        
                         grafo = new GrafoNaoDirigido(id);
-                        grafo.EhDirigido = false;
+                        grafo.SetEhDirigido(false);
                     }
                     else
                     {
-                        grafo = new GrafoDirigido(id);                        
+                        grafo = new GrafoDirigido(id);
+                        grafo.SetEhDirigido(true);         
                     }
                     vertices.Clear();
                     arestas.Clear();
@@ -108,13 +109,13 @@ namespace ListaPraticaGrafos
 
             Console.WriteLine("");
 
-            List<Grafo> listaGrafos = LerArquivo(@"C:\Users\ianrc\Documents\PUC\4 - Semestre\Grafos\ListaPraticaGrafos\Grafos.txt");
+            List<Grafo> listaGrafos = LerArquivo(@"C:\Users\mariana.cristina\Desktop\ListaPraticaGrafos-main (1)\ListaPraticaGrafos-main\Grafos.txt");
 
 
 
             foreach (Grafo g in listaGrafos)
             {
-                if (!g.EhDirigido)
+                if (!g.GetEhDirigido())
                 {
                     GrafoNaoDirigido gnd = (GrafoNaoDirigido)g;
 
@@ -123,7 +124,7 @@ namespace ListaPraticaGrafos
                         //Console.WriteLine("O Vértice {0} tem Grau {1} ", v.GetId(), gnd.GetGrau(v));
                         //Console.WriteLine("O Vértice {0} Isolado -> {1} ", v.GetId(), gnd.IsIsolado(v));
                         //Console.WriteLine("O Vértice {0} Pendente -> {1} ", v.GetId(), gnd.IsPendente(v));
-                        //Console.WriteLine(gnd.GetAGMPrim(v).ToString());
+                        gnd.GetAGMPrim(v);
                     }
 
 
@@ -139,13 +140,13 @@ namespace ListaPraticaGrafos
                 }
                 else
                 {
-                    GrafoDirigido gd = (GrafoDirigido)g;
-                    //Console.WriteLine("HasCiclo ->" + gd.HasCiclo());
-                    foreach (Vertice v in g.vertices)
-                    {
-                        Console.WriteLine(" Vértice {0} Grau de Entrada {1} ", v.GetId(), gd.GetGrauEntrada(v));
-                        Console.WriteLine(" Vértice {0} Grau de Saida {1} ", v.GetId(), gd.GetGrauSaida(v));
-                    }
+                    //GrafoDirigido gd = (GrafoDirigido)g;
+                    ////Console.WriteLine("HasCiclo ->" + gd.HasCiclo());
+                    //foreach (Vertice v in g.vertices)
+                    //{
+                    //    Console.WriteLine(" Vértice {0} Grau de Entrada {1} ", v.GetId(), gd.GetGrauEntrada(v));
+                    //    Console.WriteLine(" Vértice {0} Grau de Saida {1} ", v.GetId(), gd.GetGrauSaida(v));
+                    //}
                     Console.WriteLine("=====================================");
 
                 }

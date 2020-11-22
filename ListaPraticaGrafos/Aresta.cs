@@ -7,6 +7,7 @@
         private int direcao;
         private Vertice verticeInicial;
         private Vertice verticeFinal;
+        private bool emUso;
         
         public Aresta(int peso, int direcao, Vertice vI, Vertice vF)
         {
@@ -67,6 +68,16 @@
                 this.verticeFinal = v;
             else
                 this.verticeFinal = null;
+        }
+
+        public bool GetEmUso()
+        {
+            return emUso;
+        }
+
+        public void SetEmUso(bool uso)
+        {
+            this.emUso = uso;
         }
     }
 }

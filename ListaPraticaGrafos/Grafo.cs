@@ -12,8 +12,8 @@ namespace ListaPraticaGrafos
         public List<Aresta> arestas = new List<Aresta>();
         private bool ehDirigido = true;
         private int idGrafo;
-        public int IdGrafo { get => idGrafo; set => idGrafo = value; }
-        public bool EhDirigido { get => ehDirigido; set => ehDirigido = value; }
+        public int IdGrafo;
+        private bool EhDirigido; 
 
         public Grafo(List<Vertice> v, List<Aresta> a)
         {
@@ -24,7 +24,7 @@ namespace ListaPraticaGrafos
         {
             idGrafo = id;
         }
-
+        
         public void setVertice(Vertice v)
         {
             vertices.Add(v);
@@ -43,6 +43,26 @@ namespace ListaPraticaGrafos
                 arvore += "\nVertice " + v.GetId();
             }
             return arvore;
+        }
+
+        public int GetIdGrafo()
+        {
+            return this.idGrafo;
+        }
+
+        public void SetIdGrafo(int id)
+        {
+            this.idGrafo = id;
+        }
+
+        public bool GetEhDirigido()
+        {
+            return this.ehDirigido;
+        }
+
+        public void SetEhDirigido(bool b)
+        {
+            this.ehDirigido = b;
         }
     }
 }

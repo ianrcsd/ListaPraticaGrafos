@@ -12,7 +12,6 @@ namespace ListaPraticaGrafos
         private int descoberta;
         private int termino;
         
-
         public Vertice(int id)
         {
             this.id = id;
@@ -93,5 +92,23 @@ namespace ListaPraticaGrafos
         {
             this.termino = u;
         }
+
+        public Aresta GetMenorAresta()
+        {
+            Aresta menorAresta = null;
+            int menorPeso = System.Int32.MaxValue;
+
+            foreach (Aresta aresta in arestas)
+            {
+                if (aresta.GetPeso() <= menorPeso)
+                {
+                    menorPeso = aresta.GetPeso();
+                    menorAresta = aresta;
+                }
+            }
+
+            return menorAresta;
+        }
+
     }
 }
