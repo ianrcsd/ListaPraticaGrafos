@@ -16,6 +16,7 @@
             this.direcao = direcao;
             this.verticeInicial = vI;
             this.verticeFinal = vF;
+            this.emUso = false;
         }
         //public int GetId()
         //{
