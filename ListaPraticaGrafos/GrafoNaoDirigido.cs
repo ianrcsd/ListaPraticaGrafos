@@ -11,8 +11,8 @@ namespace ListaPraticaGrafos
         public GrafoNaoDirigido(List<Vertice> v, List<Aresta> a) : base(v, a) { }
         public GrafoNaoDirigido(int id) : base(id) { }
 
-        
-            
+
+
 
         public bool IsAdjacente(Vertice v1, Vertice v2)
         {
@@ -46,7 +46,7 @@ namespace ListaPraticaGrafos
                 return false;
         }
 
-       public  bool IsPendente(Vertice v1)
+        public bool IsPendente(Vertice v1)
         {
             if (GetGrau(v1) == 1)
                 return true;
@@ -54,7 +54,7 @@ namespace ListaPraticaGrafos
                 return false;
         }
 
-       public bool IsRegular()
+        public bool IsRegular()
         {
             bool regular = true;
             vertices.ToArray();
@@ -62,9 +62,9 @@ namespace ListaPraticaGrafos
             for (int i = 0; i < vertices.Count; i++)
             {
                 int aux = 1;
-                if (i == vertices.Count() - 1)             
-                    aux = 0;         
-                if (GetGrau(vertices[i]) != GetGrau(vertices[i+ aux]))
+                if (i == vertices.Count() - 1)
+                    aux = 0;
+                if (GetGrau(vertices[i]) != GetGrau(vertices[i + aux]))
                 {
                     regular = false;
                     break;
@@ -97,9 +97,9 @@ namespace ListaPraticaGrafos
                 return false;
         }
 
-     
 
-       public  bool IsEuleriano()
+
+        public bool IsEuleriano()
         {
             bool euleriano = true;
 
@@ -111,7 +111,7 @@ namespace ListaPraticaGrafos
             return euleriano;
         }
 
-       public  bool IsUnicursal()
+        public bool IsUnicursal()
         {
             int soma = 0;
 
@@ -131,14 +131,14 @@ namespace ListaPraticaGrafos
 
         public bool IsConexo()
         {
-            
+
             if (Dfs() == 1)
                 return true;
             else
                 return false;
         }
 
-       public int Dfs()
+        public int Dfs()
         {
             componentes = 0;
             foreach (Vertice v in vertices)
@@ -182,158 +182,224 @@ namespace ListaPraticaGrafos
 
         public Grafo GetAGMPrim(Vertice v1)
         {
-            List<Vertice> t = new List<Vertice>();
-            List<Aresta> a = new List<Aresta>();
+            List<Vertice> arvore = new List<Vertice>();
+            List<Aresta> arestas = new List<Aresta>();
             Grafo prim;
+            int maiorPeso = Int32.MaxValue;
+
 
             if (IsConexo())
             {
-                t.Add(v1);
-                while (t != vertices)
-                {
-                    v1.GetArestas().ToArray();
-                    int menorPeso = Int32.MaxValue;
-                    Vertice prox = v1;
-                    Aresta aux = null;
+                Aresta menorAresta = null;
 
-                    for (int i = 0; i < v1.GetArestas().Count; i++)
+                if (arestas.Count == 0)
+                {
+                    menorAresta = v1.GetMenorAresta();
+                    menorAresta.SetEmUso(true);
+                    arestas.Add(menorAresta);
+
+                }
+
+                foreach (Aresta a in arestas)
+                {
+                    Vertice inicial = a.GetVerticeInicial();
+                    Vertice final = a.GetVerticeFinal();
+
+                    Aresta menorArestaInicial = inicial.GetMenorAresta();
+                    Aresta menorArestaFinal = final.GetMenorAresta();
+
+                    if (menorArestaFinal.GetPeso() < menorArestaInicial.GetPeso() && !menorArestaFinal.GetEmUso())
                     {
-                        if (v1.GetArestas()[i].GetPeso() > v1.GetArestas()[i++].GetPeso())
+                        menorAresta = menorArestaFinal;
+                    }
+                    else
+                    {
+                        menorAresta = menorArestaInicial;
+                    }
+
+                }
+                arestas.Add(menorAresta);
+
+
+
+
+
+
+                Vertice prox = v1;
+                Aresta aux = null;
+                for (int i = 0; i < vertices.Count; i++)
+                {
+                    int auxi = 1;
+                    if (i == GetGrau(v1))
+                    {
+                        auxi = 0;
+                    }
+
+                    Console.WriteLine(v1.GetArestas()[i].GetPeso());
+                    //+ "  " + v1.GetArestas()[i + auxi].GetPeso());
+
+                    if (v1.GetArestas()[i].GetPeso() > v1.GetArestas()[i + auxi].GetPeso())
+                    {
+                        menorPeso = v1.GetArestas()[i + auxi].GetPeso();
+                        prox = v1.GetArestas()[i + auxi].GetVerticeFinal();
+                        aux = v1.GetArestas()[i + auxi];
+                    }
+
+                    else if (v1.GetArestas()[i].GetPeso() < v1.GetArestas()[i + auxi].GetPeso())
+                    {
+                        menorPeso = v1.GetArestas()[i].GetPeso();
+                        prox = v1.GetArestas()[i].GetVerticeFinal();
+                        aux = v1.GetArestas()[i];
+                    }
+
+                    else if (v1.GetArestas()[i].GetPeso() == v1.GetArestas()[i + auxi].GetPeso())
+                    {
+                        if (v1.GetArestas()[i].GetVerticeInicial().GetId() + v1.GetArestas()[i + auxi].GetVerticeFinal().GetId() >
+                            v1.GetArestas()[i + auxi].GetVerticeInicial().GetId() + v1.GetArestas()[i + auxi].GetVerticeFinal().GetId())
                         {
-                            menorPeso = v1.GetArestas()[i++].GetPeso();
-                            prox = v1.GetArestas()[i++].GetVerticeFinal();
-                            aux = v1.GetArestas()[i++];
+                            menorPeso = v1.GetArestas()[i + auxi].GetPeso();
+                            prox = v1.GetArestas()[i + auxi].GetVerticeFinal();
+                            aux = v1.GetArestas()[i + auxi];
                         }
-                        else if (v1.GetArestas()[i].GetPeso() == v1.GetArestas()[i++].GetPeso())
+                        else if (v1.GetArestas()[i].GetVerticeInicial().GetId() + v1.GetArestas()[i + auxi].GetVerticeFinal().GetId() <
+                            v1.GetArestas()[i + auxi].GetVerticeInicial().GetId() + v1.GetArestas()[i + auxi].GetVerticeFinal().GetId())
                         {
-                            if (v1.GetArestas()[i].GetVerticeInicial().GetId() + v1.GetArestas()[i++].GetVerticeFinal().GetId() > v1.GetArestas()[i++].GetVerticeInicial().GetId() + v1.GetArestas()[i++].GetVerticeFinal().GetId())
+                            menorPeso = v1.GetArestas()[i].GetPeso();
+                            prox = v1.GetArestas()[i].GetVerticeFinal();
+                            aux = v1.GetArestas()[i];
+                        }
+                        else
+                        {
+                            if (v1.GetArestas()[i].GetVerticeFinal().GetId() > v1.GetArestas()[i + auxi].GetVerticeFinal().GetId())
                             {
-                                menorPeso = v1.GetArestas()[i++].GetPeso();
-                                prox = v1.GetArestas()[i++].GetVerticeFinal();
-                                aux = v1.GetArestas()[i++];
+                                menorPeso = v1.GetArestas()[i + auxi].GetPeso();
+                                prox = v1.GetArestas()[i + auxi].GetVerticeFinal();
+                                aux = v1.GetArestas()[i + auxi];
                             }
-                            else if (v1.GetArestas()[i].GetVerticeInicial().GetId() + v1.GetArestas()[i++].GetVerticeFinal().GetId() < v1.GetArestas()[i++].GetVerticeInicial().GetId() + v1.GetArestas()[i++].GetVerticeFinal().GetId())
+                            else
                             {
                                 menorPeso = v1.GetArestas()[i].GetPeso();
                                 prox = v1.GetArestas()[i].GetVerticeFinal();
                                 aux = v1.GetArestas()[i];
                             }
-                            else
-                            {
-                                if (v1.GetArestas()[i].GetVerticeFinal().GetId() > v1.GetArestas()[i++].GetVerticeFinal().GetId())
-                                {
-                                    menorPeso = v1.GetArestas()[i++].GetPeso();
-                                    prox = v1.GetArestas()[i++].GetVerticeFinal();
-                                    aux = v1.GetArestas()[i++];
-                                }
-                                else
-                                {
-                                    menorPeso = v1.GetArestas()[i].GetPeso();
-                                    prox = v1.GetArestas()[i].GetVerticeFinal();
-                                    aux = v1.GetArestas()[i];
-                                }
-                            }
+
                         }
                     }
+                    //Console.WriteLine(prox.GetId());
                     t.Add(prox);
                     a.Add(aux);
                     v1 = prox;
+
                 }
+
             }
-            prim = new Grafo(t, a);
-            t.ToString();
+        }
+        prim = new Grafo(t, a);
+            foreach (Vertice v in t)
+            {
+                Console.WriteLine(v.GetId());
+            }
             return prim;
         }
 
-       public Grafo GetAGMKruskal(Vertice v1)
+public Grafo GetAGMKruskal(Vertice v1)
+{
+    List<Vertice> t = new List<Vertice>();
+    List<Aresta> a = new List<Aresta>();
+    Grafo kruskal;
+
+    if (IsConexo())
+    {
+
+        arestas = BubbleSort(arestas);
+
+        int[] chefes = Enumerable.Range(0, vertices.Count).ToArray();
+
+        t.Add(v1);
+
+        foreach (Aresta aresta in arestas)
         {
-            List<Vertice> t = new List<Vertice>();
-            List<Aresta> a = new List<Aresta>();
-            Grafo kruskal;
+            int chefeInicial = Chefe(aresta.GetVerticeInicial().GetId(), chefes);
+            int chefeFinal = Chefe(aresta.GetVerticeFinal().GetId(), chefes);
 
-            if (IsConexo())
+            if (chefeInicial != chefeFinal)
             {
-                arestas.Sort();
-
-                int[] chefes = Enumerable.Range(0, vertices.Count).ToArray();
-
-                t.Add(v1);
-
-                foreach (Aresta aresta in arestas)
-                {
-                    int chefeInicial = Chefe(aresta.GetVerticeInicial().GetId(), chefes);
-                    int chefeFinal = Chefe(aresta.GetVerticeFinal().GetId(), chefes);
-
-                    if (chefeInicial != chefeFinal)
-                    {
-                        a.Add(aresta);
-                        t.Add(aresta.GetVerticeFinal());
-                        chefes[chefeFinal] = chefeInicial;
-                    }
-                }
-
+                a.Add(aresta);
+                Console.WriteLine(aresta.GetPeso());
+                t.Add(aresta.GetVerticeFinal());
+                chefes[chefeFinal] = chefeInicial;
             }
-            kruskal = new Grafo(t, a);
-            t.ToString();
-            return kruskal;
-
-        }
-        /// <summary>
-        /// ordenação ascendente
-        /// </summary>
-        /// <param name="vet"></param>
-        //void BubbleSort(Aresta[] a)
-        //{
-        //    for (int i = 1; i < a.Length; i++)
-        //    {
-        //        for (int j = 0; j < i; j++)
-        //        {
-        //            if (a[i].GetPeso() < a[j].GetPeso())
-        //            {
-        //                Aresta temp = a[i];
-        //                a[i] = a[j];
-        //                a[j] = temp;
-        //            }
-        //        }
-        //    }
-        //}
-
-        private int Chefe(int id, int[] chefes)
-        {
-            int chefe = id;
-            while (chefe != chefes[chefe])
-            {
-                chefe = chefes[chefe];
-            }
-            while (id != chefe)
-            {
-                int chefeAntigo = chefes[id];
-                chefes[id] = chefe;
-                id = chefeAntigo;
-            }
-            return chefe;
         }
 
-       public int GetCutVertices()
+    }
+    kruskal = new Grafo(t, a);
+
+    return kruskal;
+
+}
+/// <summary>
+/// ordenação ascendente
+/// </summary>
+/// <param name = "vet" ></ param >
+public List<Aresta> BubbleSort(List<Aresta> a)
+{
+
+    for (int i = 1; i < a.ToArray().Length; i++)
+    {
+        for (int j = 0; j < i; j++)
         {
-            int cutVertices = 0;
-            if (IsConexo() && !IsCompleto()) //grafos completos não tem cut vertices
+            if (a[i].GetPeso() < a[j].GetPeso())
             {
-                Dfs();
-                foreach (Vertice v in vertices)
-                {
-                    if (v.GetPai() == null && v.GetFilhos().Count >= 2) //é uma raiz com mais de 2 filhos
-                    {
-                        cutVertices++;
-                    }
-                    if(v.GetPai()!=null && v.GetFilhos() != null) //não é uma folha
-                    {
-                        cutVertices++;
-                    }
-                }
+                Aresta temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
             }
-            return cutVertices;
         }
+    }
+    return a;
+}
+
+private int Chefe(int id, int[] chefes)
+{
+    int chefe = id;
+    if (id == chefes.Length)
+    {
+        chefe--;
+        id--;
+    }
+    while (chefe != chefes[chefe])
+    {
+        chefe = chefes[chefe];
+    }
+    while (id != chefe)
+    {
+        int chefeAntigo = chefes[id];
+        chefes[id] = chefe;
+        id = chefeAntigo;
+    }
+    return chefe;
+}
+
+public int GetCutVertices()
+{
+    int cutVertices = 0;
+    if (IsConexo() && !IsCompleto()) //grafos completos não tem cut vertices
+    {
+        Dfs();
+        foreach (Vertice v in vertices)
+        {
+            if (v.GetPai() == null && v.GetFilhos().Count >= 2) //é uma raiz com mais de 2 filhos
+            {
+                cutVertices++;
+            }
+            if (v.GetPai() != null && v.GetFilhos() != null) //não é uma folha
+            {
+                cutVertices++;
+            }
+        }
+    }
+    return cutVertices;
+}
 
 
     }
