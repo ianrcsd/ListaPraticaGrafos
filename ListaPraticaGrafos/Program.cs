@@ -107,9 +107,9 @@ namespace ListaPraticaGrafos
             //string diridigo = System.IO.File.ReadAllText(@"C:\Users\ianrc\Documents\PUC\4 - Semestre\Grafos\ListaPraticaGrafos\dirigido.txt");
 
 
-            Console.WriteLine("");
+            string path = Directory.GetCurrentDirectory();
 
-            List<Grafo> listaGrafos = LerArquivo(@"C:\Users\mariana.cristina\Desktop\ListaPraticaGrafos-main (1)\ListaPraticaGrafos-main\Grafos.txt");
+            List<Grafo> listaGrafos = LerArquivo(@path + "\\..\\..\\..\\Grafos.txt");
 
 
 
@@ -119,14 +119,17 @@ namespace ListaPraticaGrafos
                 {
                     GrafoNaoDirigido gnd = (GrafoNaoDirigido)g;
 
-                    foreach (Vertice v in g.vertices)
-                    {
-                        //Console.WriteLine("O Vértice {0} tem Grau {1} ", v.GetId(), gnd.GetGrau(v));
-                        //Console.WriteLine("O Vértice {0} Isolado -> {1} ", v.GetId(), gnd.IsIsolado(v));
-                        //Console.WriteLine("O Vértice {0} Pendente -> {1} ", v.GetId(), gnd.IsPendente(v));
-                        gnd.GetAGMPrim(v);
-                    }
+                    //foreach (Vertice v in g.vertices)
+                    //{
+                    //    //Console.WriteLine("O Vértice {0} tem Grau {1} ", v.GetId(), gnd.GetGrau(v));
+                    //    //Console.WriteLine("O Vértice {0} Isolado -> {1} ", v.GetId(), gnd.IsIsolado(v));
+                    //    //Console.WriteLine("O Vértice {0} Pendente -> {1} ", v.GetId(), gnd.IsPendente(v));
 
+                    //}
+                    Vertice v = gnd.vertices.First();
+
+                    Console.WriteLine(gnd.GetAGMKruskal(v));
+                    
 
 
                     //Console.WriteLine("Conexo ->" + gnd.IsConexo());

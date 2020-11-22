@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ListaPraticaGrafos
 {
@@ -8,10 +9,10 @@ namespace ListaPraticaGrafos
         public List<Aresta> arestas = new List<Aresta>();
         private int cor;
         private Vertice pai;
-        public List<Vertice> filhos = new List<Vertice>();        
+        public List<Vertice> filhos = new List<Vertice>();
         private int descoberta;
         private int termino;
-        
+
         public Vertice(int id)
         {
             this.id = id;
@@ -93,22 +94,46 @@ namespace ListaPraticaGrafos
             this.termino = u;
         }
 
-        public Aresta GetMenorAresta()
+        public Aresta GetMenorArestaDisponivel()
         {
             Aresta menorAresta = null;
             int menorPeso = System.Int32.MaxValue;
 
+            //for(int i=0; i < arestas.ToArray().Length; i++)
+            //{
+
+            //}
             foreach (Aresta aresta in arestas)
             {
-                if (aresta.GetPeso() <= menorPeso)
+                if (aresta.GetPeso() < menorPeso && !aresta.GetEmUso())
                 {
                     menorPeso = aresta.GetPeso();
                     menorAresta = aresta;
+                }
+                else if (aresta.GetPeso() == menorPeso && !aresta.GetEmUso())
+                {
+                    if (((aresta.GetVerticeInicial().GetId() + aresta.GetVerticeFinal().GetId())
+                        < (menorAresta.GetVerticeInicial().GetId() + menorAresta.GetVerticeFinal().GetId())))
+                    {
+                        menorPeso = aresta.GetPeso();
+                        menorAresta = aresta;
+                    }
+                    else if (((aresta.GetVerticeInicial().GetId() + aresta.GetVerticeFinal().GetId())
+                        == (menorAresta.GetVerticeInicial().GetId() + menorAresta.GetVerticeFinal().GetId())))
+                    {
+                        if (aresta.GetVerticeFinal().GetId() < menorAresta.GetVerticeFinal().GetId())
+                        {
+                            menorPeso = aresta.GetPeso();
+                            menorAresta = aresta;
+                        }
+                    }
                 }
             }
 
             return menorAresta;
         }
+
+
 
     }
 }

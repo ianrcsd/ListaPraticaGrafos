@@ -179,11 +179,10 @@ namespace ListaPraticaGrafos
 
         public Grafo GetAGMPrim(Vertice v1)
         {
-            List<Vertice> arvore = new List<Vertice>();
+            List<Vertice> vertices = new List<Vertice>();
             List<Aresta> arestas = new List<Aresta>();
-            Grafo prim = null; 
             //int maiorPeso = Int32.MaxValue;
-
+            int totalVertices = this.vertices.Count;
 
             if (!IsConexo()) return null;
 
@@ -191,73 +190,68 @@ namespace ListaPraticaGrafos
 
             if (arestas.Count == 0)
             {
-                menorAresta = v1.GetMenorAresta();
+                menorAresta = v1.GetMenorArestaDisponivel();
                 menorAresta.SetEmUso(true);
                 arestas.Add(menorAresta);
+                vertices.Add(v1);
+                vertices.Add(menorAresta.GetVerticeFinal());
 
             }
 
-            while(menorAresta != null) { //tá passando só uma vez
+            while (menorAresta != null)
+            { //tá passando só uma vez
+                menorAresta = null;
 
-                foreach (Aresta aresta in arestas) {
-                    Aresta menorArestaInicial = aresta.GetVerticeInicial().GetMenorAresta();
-                    Aresta menorArestaFinal = aresta.GetVerticeFinal().GetMenorAresta();
+                foreach (Aresta aresta in arestas)
+                {
 
-                    if (menorArestaFinal.GetPeso() < menorArestaInicial.GetPeso() && !menorArestaFinal.GetEmUso()) {
+                    Aresta menorArestaInicial = aresta.GetVerticeInicial().GetMenorArestaDisponivel();
+                    Aresta menorArestaFinal = aresta.GetVerticeFinal().GetMenorArestaDisponivel();
+
+                    if (vertices.Count == totalVertices) menorAresta = null;
+
+
+                    else if (menorArestaInicial == null && menorArestaFinal != null)
+                    {
+                        if (menorAresta == null)
+                            menorAresta = menorArestaFinal;
+                        else if (menorAresta.GetPeso() > menorArestaFinal.GetPeso())
+                            menorAresta = menorArestaFinal;
+                    }
+                    else if (menorArestaFinal == null && menorArestaInicial != null)
+                    {
+                        if (menorAresta == null)
+                            menorAresta = menorArestaInicial;
+                        else if (menorAresta.GetPeso() > menorArestaInicial.GetPeso())
+                            menorAresta = menorArestaInicial;
+                    }
+                    else if (menorArestaFinal == null && menorArestaInicial == null) menorAresta = null;
+                    else if (menorArestaFinal.GetPeso() < menorArestaInicial.GetPeso() && !menorArestaFinal.GetEmUso())
+                    {
                         menorAresta = menorArestaFinal;
                     }
-                    else if(!menorArestaInicial.GetEmUso()) {
+                    else if (!menorArestaInicial.GetEmUso())
+                    {
                         menorAresta = menorArestaInicial;
-                    } else {
+                    }
+                    else {
                         menorAresta = null;
                     }
-
                 }
 
-                if(menorAresta != null) {
+                if (menorAresta != null)
+                {
                     menorAresta.SetEmUso(true);
                     arestas.Add(menorAresta);
+                    vertices.Add(menorAresta.GetVerticeFinal());
+
                 }
             }
+            Grafo prim = new Grafo(vertices, arestas);
 
             return prim;
         }
 
-        public Grafo GetAGMKruskal(Vertice v1)
-        {
-            List<Vertice> t = new List<Vertice>();
-            List<Aresta> a = new List<Aresta>();
-            Grafo kruskal;
-
-            if (IsConexo())
-            {
-
-                arestas = BubbleSort(arestas);
-
-                int[] chefes = Enumerable.Range(0, vertices.Count).ToArray();
-
-                t.Add(v1);
-
-                foreach (Aresta aresta in arestas)
-                {
-                    int chefeInicial = Chefe(aresta.GetVerticeInicial().GetId(), chefes);
-                    int chefeFinal = Chefe(aresta.GetVerticeFinal().GetId(), chefes);
-
-                    if (chefeInicial != chefeFinal)
-                    {
-                        a.Add(aresta);
-                        Console.WriteLine(aresta.GetPeso());
-                        t.Add(aresta.GetVerticeFinal());
-                        chefes[chefeFinal] = chefeInicial;
-                    }
-                }
-
-            }
-            kruskal = new Grafo(t, a);
-
-            return kruskal;
-
-        }
         /// <summary>
         /// ordenação ascendente
         /// </summary>
@@ -279,6 +273,45 @@ namespace ListaPraticaGrafos
             }
             return a;
         }
+
+        public Grafo GetAGMKruskal(Vertice v1)
+        {
+            List<Vertice> vertices = new List<Vertice>();
+            List<Aresta> arestas = new List<Aresta>();
+            Grafo kruskal;
+
+            if (!IsConexo()) return null;
+
+
+            arestas = BubbleSort(this.arestas);
+
+            int[] chefes = new int[this.vertices.Count];
+
+            for(int i = 0; i < chefes.Length; i++)
+            {
+                chefes[i] = i + 1;
+            }
+
+            vertices.Add(v1);
+
+            foreach (Aresta aresta in arestas)
+            {
+                int chefeInicial = Chefe(aresta.GetVerticeInicial().GetId(), chefes);
+                int chefeFinal = Chefe(aresta.GetVerticeFinal().GetId(), chefes);
+
+                if (chefeInicial != chefeFinal)
+                {
+                    arestas.Add(aresta);
+                    vertices.Add(aresta.GetVerticeFinal());
+                    chefes[chefeFinal] = chefeInicial;
+                }
+            }
+            kruskal = new Grafo(vertices, arestas);
+
+            return kruskal;
+
+        }
+
 
         private int Chefe(int id, int[] chefes)
         {
