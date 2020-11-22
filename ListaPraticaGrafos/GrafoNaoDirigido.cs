@@ -217,8 +217,6 @@ namespace ListaPraticaGrafos
                 arestas.Add(menorAresta);
             }
 
-
-
             return prim;
         }
 
