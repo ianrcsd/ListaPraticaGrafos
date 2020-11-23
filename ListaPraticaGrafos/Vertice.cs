@@ -98,11 +98,6 @@ namespace ListaPraticaGrafos
         {
             Aresta menorAresta = null;
             int menorPeso = System.Int32.MaxValue;
-
-            //for(int i=0; i < arestas.ToArray().Length; i++)
-            //{
-
-            //}
             foreach (Aresta aresta in arestas)
             {
                 if (aresta.GetPeso() < menorPeso && !aresta.GetEmUso())
@@ -132,8 +127,6 @@ namespace ListaPraticaGrafos
 
             return menorAresta;
         }
-
-
 
     }
 }

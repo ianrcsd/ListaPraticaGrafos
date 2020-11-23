@@ -11,23 +11,12 @@
         
         public Aresta(int peso, int direcao, Vertice vI, Vertice vF)
         {
-            //this.id = id;
             this.peso = peso;
             this.direcao = direcao;
             this.verticeInicial = vI;
             this.verticeFinal = vF;
             this.emUso = false;
         }
-        //public int GetId()
-        //{
-        //    return id;
-        //}
-
-        //public void SetId(int id)
-        //{
-        //    this.id = id;
-        //}
-
         public int GetPeso()
         {
             return peso;
@@ -42,8 +31,7 @@
         {
             return direcao;
         }
-        //precisa ver a validação do grafo não dirigido. Pensei em colocar 0
-        public void SetDirecao(int direcao)
+        public void SetDirecao(int direcao) //somente para grafos dirigidos
         {
             this.direcao = direcao;
         }

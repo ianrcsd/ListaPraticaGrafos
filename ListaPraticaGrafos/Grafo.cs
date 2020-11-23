@@ -10,10 +10,8 @@ namespace ListaPraticaGrafos
     {
         public List<Vertice> vertices = new List<Vertice>();
         public List<Aresta> arestas = new List<Aresta>();
-        private bool ehDirigido = true;
+        private bool ehDirigido;
         private int idGrafo;
-        public int IdGrafo;
-        private bool EhDirigido; 
 
         public Grafo(List<Vertice> v, List<Aresta> a)
         {

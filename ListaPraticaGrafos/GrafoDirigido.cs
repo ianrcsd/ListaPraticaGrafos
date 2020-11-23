@@ -16,12 +16,7 @@ namespace ListaPraticaGrafos
         public GrafoDirigido(int id) : base(id)
         {
 
-        }
-
-        public bool isDirigido()
-        {
-            return true;
-        }
+        }        
         public int GetGrauEntrada(Vertice v1)
         {
             int count = 0;
@@ -44,15 +39,12 @@ namespace ListaPraticaGrafos
             return count;
         }
         public bool HasCiclo()
-        {
-           
-
+        {         
             if (DfsModificado() == 1)
                 return true;
             else
                 return false;
         }
-
         public int DfsModificado()
         {
             int i = 0;

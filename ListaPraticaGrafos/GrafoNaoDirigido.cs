@@ -17,8 +17,7 @@ namespace ListaPraticaGrafos
             v1.GetArestas().ToArray();
             v2.GetArestas().ToArray();
 
-
-            for (int i = 0; i < v1.GetArestas().Count; i++)
+            for (int i = 0; i < v1.GetArestas().Count; i++) //analisa se os dois vértices compartilham a mesma aresta
             {
                 for (int j = 0; j < v2.GetArestas().Count; j++)
                 {
@@ -35,7 +34,7 @@ namespace ListaPraticaGrafos
             return v1.GetArestas().Count;
         }
 
-        public bool IsIsolado(Vertice v1)
+        public bool IsIsolado(Vertice v1) // isolado é quando tem grau 0
         {
             if (v1.GetArestas().Count == 0)
                 return true;
@@ -43,7 +42,7 @@ namespace ListaPraticaGrafos
                 return false;
         }
 
-        public bool IsPendente(Vertice v1)
+        public bool IsPendente(Vertice v1) // isolado é quando tem grau 1
         {
             if (GetGrau(v1) == 1)
                 return true;
@@ -51,7 +50,7 @@ namespace ListaPraticaGrafos
                 return false;
         }
 
-        public bool IsRegular()
+        public bool IsRegular() // se todos os vertices tem o mesmo grau
         {
             bool regular = true;
             vertices.ToArray();
@@ -71,7 +70,7 @@ namespace ListaPraticaGrafos
 
         }
 
-        public bool IsNulo()
+        public bool IsNulo() // ou trivial, todo os vértices com grau 1 (isolado)
         {
             bool nulo = true;
             foreach (Vertice v in vertices)
@@ -83,7 +82,7 @@ namespace ListaPraticaGrafos
             return nulo;
         }
 
-        public bool IsCompleto()
+        public bool IsCompleto() // implementei o teorema da soma dos vértices que prova se o grafo é completo
         {
             int numVertices = vertices.Count;
             int numArestas = arestas.Count;
@@ -94,9 +93,7 @@ namespace ListaPraticaGrafos
                 return false;
         }
 
-
-
-        public bool IsEuleriano()
+        public bool IsEuleriano() //precisa ter todos os vértices de grau par
         {
             bool euleriano = true;
 
@@ -108,7 +105,7 @@ namespace ListaPraticaGrafos
             return euleriano;
         }
 
-        public bool IsUnicursal()
+        public bool IsUnicursal() //precisa ter dois vértices de grau par
         {
             int soma = 0;
 
@@ -123,10 +120,9 @@ namespace ListaPraticaGrafos
             else
                 return false;
         }
-
         int componentes;
 
-        public bool IsConexo()
+        public bool IsConexo() //se a busca em profundidde (dfs) retornar mais de 1 componente, não é conexo
         {
 
             if (Dfs() == 1)
@@ -135,18 +131,17 @@ namespace ListaPraticaGrafos
                 return false;
         }
 
-        public int Dfs()
+        public int Dfs() //busca em profundidade
         {
             componentes = 0;
-            foreach (Vertice v in vertices)
+            foreach (Vertice v in vertices) //inicializa o grafo com todos o vertices brancos (0) e pai null
             {
                 v.SetCor(0);
                 v.SetPai(null);
             }
             int timeStamp = 0;
 
-
-            foreach (Vertice v in vertices)
+            foreach (Vertice v in vertices) // se o vertice for branco, visitar o adjacente
             {
                 if (v.GetCor() == 0)
                 {
@@ -161,18 +156,18 @@ namespace ListaPraticaGrafos
         {
             timeStamp++;
             v.SetDescoberta(timeStamp);
-            v.SetCor(1);
+            v.SetCor(1); //assim que é visitado, o vértice é marcado de cinza(1)
 
             foreach (Aresta a in v.GetArestas())
             {
                 if (a.GetVerticeFinal().GetCor() == 0)
                 {
                     a.GetVerticeFinal().SetPai(v);
-                    v.GetFilhos().Add(a.GetVerticeInicial());
+                    v.GetFilhos().Add(a.GetVerticeFinal());
                     Visitar(a.GetVerticeFinal(), timeStamp);
                 }
             }
-            v.SetCor(2);
+            v.SetCor(2); //marca o vértice como preto (2) depois de ter todas as arests visitadas
             timeStamp++;
             v.SetTermino(timeStamp);
         }
@@ -181,12 +176,10 @@ namespace ListaPraticaGrafos
         {
             List<Vertice> vertices = new List<Vertice>();
             List<Aresta> arestas = new List<Aresta>();
-            //int maiorPeso = Int32.MaxValue;
             int totalVertices = this.vertices.Count;
+            Aresta menorAresta = null;
 
             if (!IsConexo()) return null;
-
-            Aresta menorAresta = null;
 
             if (arestas.Count == 0)
             {
@@ -199,17 +192,14 @@ namespace ListaPraticaGrafos
             }
 
             while (menorAresta != null)
-            { //tá passando só uma vez
+            { 
                 menorAresta = null;
-
                 foreach (Aresta aresta in arestas)
                 {
-
                     Aresta menorArestaInicial = aresta.GetVerticeInicial().GetMenorArestaDisponivel();
                     Aresta menorArestaFinal = aresta.GetVerticeFinal().GetMenorArestaDisponivel();
 
                     if (vertices.Count == totalVertices) menorAresta = null;
-
 
                     else if (menorArestaInicial == null && menorArestaFinal != null)
                     {
@@ -258,7 +248,6 @@ namespace ListaPraticaGrafos
         /// <param name = "vet" ></ param >
         public List<Aresta> BubbleSort(List<Aresta> a)
         {
-
             for (int i = 1; i < a.ToArray().Length; i++)
             {
                 for (int j = 0; j < i; j++)
@@ -289,7 +278,7 @@ namespace ListaPraticaGrafos
 
             for(int i = 0; i < chefes.Length; i++)
             {
-                chefes[i] = i + 1;
+                chefes[i] = i;
             }
 
             vertices.Add(v1);
