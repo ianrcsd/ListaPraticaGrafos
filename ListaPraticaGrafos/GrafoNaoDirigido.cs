@@ -121,6 +121,7 @@ namespace ListaPraticaGrafos
                 return false;
         }
         int componentes;
+        int isCutVertice = 0;
 
         public bool IsConexo() //se a busca em profundidde (dfs) retornar mais de 1 componente, não é conexo
         {
@@ -163,7 +164,29 @@ namespace ListaPraticaGrafos
                 if (a.GetVerticeFinal().GetCor() == 0)
                 {
                     a.GetVerticeFinal().SetPai(v);
-                    v.GetFilhos().Add(a.GetVerticeFinal());
+                    foreach (Aresta are in a.GetVerticeFinal().arestas)
+                    {
+                        if (are.GetVerticeFinal().GetCor() == 1)
+                        {
+                            isCutVertice++;
+                        }
+                    }
+                    if (v.GetFilhos().Count == 0)
+                    {
+                        v.GetFilhos().Add(a.GetVerticeFinal());
+                    }
+                    else
+                    {
+                        foreach (Vertice ver in v.GetFilhos())
+                        {
+                            if (ver.GetId() == a.GetVerticeFinal().GetId()) break;
+                            else
+                            {
+                                v.GetFilhos().Add(a.GetVerticeFinal());
+                            }
+                        }
+                    }
+
                     Visitar(a.GetVerticeFinal(), timeStamp);
                 }
             }
@@ -192,7 +215,7 @@ namespace ListaPraticaGrafos
             }
 
             while (menorAresta != null)
-            { 
+            {
                 menorAresta = null;
                 foreach (Aresta aresta in arestas)
                 {
@@ -276,7 +299,7 @@ namespace ListaPraticaGrafos
 
             int[] chefes = new int[this.vertices.Count];
 
-            for(int i = 0; i < chefes.Length; i++)
+            for (int i = 0; i < chefes.Length; i++)
             {
                 chefes[i] = i;
             }
@@ -342,6 +365,7 @@ namespace ListaPraticaGrafos
                 }
             }
             return cutVertices;
+
         }
 
     }
